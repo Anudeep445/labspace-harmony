@@ -29,7 +29,7 @@ export const SLOTS = [
 ] as const;
 export const slotLabel = (s: readonly [string, string]) => `${fmt12(s[0])}–${fmt12(s[1])}`;
 export function fmt12(t: string) {
-  const [h, m] = t.slice(0, 5).split(":").map(Number);
+  const [h = 0, m = 0] = t.slice(0, 5).split(":").map(Number);
   const hh = h > 12 ? h - 12 : h;
   return `${String(hh).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
@@ -42,8 +42,8 @@ export function stockStatus(qty: number, min: number) {
 }
 
 export function hoursBetween(a: string, b: string) {
-  const [ah, am] = a.split(":").map(Number);
-  const [bh, bm] = b.split(":").map(Number);
+  const [ah = 0, am = 0] = a.split(":").map(Number);
+  const [bh = 0, bm = 0] = b.split(":").map(Number);
   return (bh * 60 + bm - (ah * 60 + am)) / 60;
 }
 

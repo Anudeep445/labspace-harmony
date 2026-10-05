@@ -144,7 +144,7 @@ export function Toolbar({ children }: { children: ReactNode }) {
   return <div className="no-print mb-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">{children}</div>;
 }
 
-export function Field({ label, error, children, className }: { label: string; error?: string; children: ReactNode; className?: string }) {
+export function Field({ label, error, children, className }: { label: string; error?: string | undefined; children: ReactNode; className?: string }) {
   return (
     <div className={cn("space-y-1.5", className)}>
       <Label className="text-xs font-medium text-foreground">{label}</Label>
@@ -158,7 +158,7 @@ export function SelectInput({ value, onChange, options, placeholder = "Select…
   value: string; onChange: (v: string) => void; options: (string | { value: string; label: string })[]; placeholder?: string;
 }) {
   return (
-    <Select value={value || undefined} onValueChange={onChange}>
+    <Select {...(value ? { value } : {})} onValueChange={onChange}>
       <SelectTrigger className="w-full"><SelectValue placeholder={placeholder} /></SelectTrigger>
       <SelectContent>
         {options.map((o) => {

@@ -56,7 +56,7 @@ export const ensureDemoUsers = createServerFn({ method: "POST" }).handler(async 
           { title: "Attendance updated", message: "Your attendance for Computer Networks has been recorded", type: "info", is_read: true },
         ],
       };
-      await supabaseAdmin.from("notifications").insert(seed[acc.role].map((n) => ({ ...n, user_id: uid })));
+      await supabaseAdmin.from("notifications").insert((seed[acc.role] ?? []).map((n) => ({ ...n, user_id: uid })));
     }
   }
   return { ok: true };
