@@ -14,16 +14,567 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_log: {
+        Row: {
+          action: string
+          created_at: string
+          details: string | null
+          id: string
+          kind: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          kind?: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          kind?: string
+        }
+        Relationships: []
+      }
+      attendance: {
+        Row: {
+          att_date: string
+          class_batch: string
+          created_at: string
+          faculty_id: string | null
+          id: string
+          lab_id: string
+          status: string
+          student_id: string
+          subject: string
+        }
+        Insert: {
+          att_date: string
+          class_batch: string
+          created_at?: string
+          faculty_id?: string | null
+          id?: string
+          lab_id: string
+          status: string
+          student_id: string
+          subject: string
+        }
+        Update: {
+          att_date?: string
+          class_batch?: string
+          created_at?: string
+          faculty_id?: string | null
+          id?: string
+          lab_id?: string
+          status?: string
+          student_id?: string
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_faculty_id_fkey"
+            columns: ["faculty_id"]
+            isOneToOne: false
+            referencedRelation: "faculty"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_lab_id_fkey"
+            columns: ["lab_id"]
+            isOneToOne: false
+            referencedRelation: "labs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookings: {
+        Row: {
+          admin_note: string | null
+          booking_date: string
+          class_batch: string
+          created_at: string
+          created_by: string | null
+          end_time: string
+          faculty_id: string
+          id: string
+          lab_id: string
+          purpose: string | null
+          start_time: string
+          status: string
+          subject: string
+        }
+        Insert: {
+          admin_note?: string | null
+          booking_date: string
+          class_batch: string
+          created_at?: string
+          created_by?: string | null
+          end_time: string
+          faculty_id: string
+          id?: string
+          lab_id: string
+          purpose?: string | null
+          start_time: string
+          status?: string
+          subject: string
+        }
+        Update: {
+          admin_note?: string | null
+          booking_date?: string
+          class_batch?: string
+          created_at?: string
+          created_by?: string | null
+          end_time?: string
+          faculty_id?: string
+          id?: string
+          lab_id?: string
+          purpose?: string | null
+          start_time?: string
+          status?: string
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_faculty_id_fkey"
+            columns: ["faculty_id"]
+            isOneToOne: false
+            referencedRelation: "faculty"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_lab_id_fkey"
+            columns: ["lab_id"]
+            isOneToOne: false
+            referencedRelation: "labs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      equipment: {
+        Row: {
+          brand: string | null
+          category: string
+          code: string
+          condition: string
+          created_at: string
+          id: string
+          lab_id: string | null
+          model: string | null
+          name: string
+          purchase_date: string | null
+          quantity: number
+          serial_no: string | null
+          status: string
+          warranty_expiry: string | null
+        }
+        Insert: {
+          brand?: string | null
+          category: string
+          code: string
+          condition?: string
+          created_at?: string
+          id?: string
+          lab_id?: string | null
+          model?: string | null
+          name: string
+          purchase_date?: string | null
+          quantity?: number
+          serial_no?: string | null
+          status?: string
+          warranty_expiry?: string | null
+        }
+        Update: {
+          brand?: string | null
+          category?: string
+          code?: string
+          condition?: string
+          created_at?: string
+          id?: string
+          lab_id?: string | null
+          model?: string | null
+          name?: string
+          purchase_date?: string | null
+          quantity?: number
+          serial_no?: string | null
+          status?: string
+          warranty_expiry?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipment_lab_id_fkey"
+            columns: ["lab_id"]
+            isOneToOne: false
+            referencedRelation: "labs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faculty: {
+        Row: {
+          assigned_lab_id: string | null
+          code: string
+          created_at: string
+          department: string
+          email: string
+          id: string
+          name: string
+          phone: string | null
+          specialization: string | null
+          user_id: string | null
+        }
+        Insert: {
+          assigned_lab_id?: string | null
+          code: string
+          created_at?: string
+          department: string
+          email: string
+          id?: string
+          name: string
+          phone?: string | null
+          specialization?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          assigned_lab_id?: string | null
+          code?: string
+          created_at?: string
+          department?: string
+          email?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          specialization?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faculty_lab_fk"
+            columns: ["assigned_lab_id"]
+            isOneToOne: false
+            referencedRelation: "labs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inventory: {
+        Row: {
+          category: string
+          code: string
+          id: string
+          lab_id: string | null
+          min_stock: number
+          name: string
+          quantity: number
+          supplier: string | null
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          code: string
+          id?: string
+          lab_id?: string | null
+          min_stock?: number
+          name: string
+          quantity?: number
+          supplier?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          code?: string
+          id?: string
+          lab_id?: string | null
+          min_stock?: number
+          name?: string
+          quantity?: number
+          supplier?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_lab_id_fkey"
+            columns: ["lab_id"]
+            isOneToOne: false
+            referencedRelation: "labs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      labs: {
+        Row: {
+          building: string
+          capacity: number
+          code: string
+          created_at: string
+          department: string
+          faculty_id: string | null
+          floor: string
+          id: string
+          lab_type: string
+          name: string
+          room: string
+          status: string
+        }
+        Insert: {
+          building: string
+          capacity?: number
+          code: string
+          created_at?: string
+          department: string
+          faculty_id?: string | null
+          floor: string
+          id?: string
+          lab_type: string
+          name: string
+          room: string
+          status?: string
+        }
+        Update: {
+          building?: string
+          capacity?: number
+          code?: string
+          created_at?: string
+          department?: string
+          faculty_id?: string | null
+          floor?: string
+          id?: string
+          lab_type?: string
+          name?: string
+          room?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "labs_faculty_id_fkey"
+            columns: ["faculty_id"]
+            isOneToOne: false
+            referencedRelation: "faculty"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maintenance_requests: {
+        Row: {
+          code: string
+          created_at: string
+          description: string
+          equipment_id: string | null
+          id: string
+          image_url: string | null
+          issue_type: string
+          lab_id: string | null
+          priority: string
+          reported_by: string | null
+          reporter_name: string
+          resolution: string | null
+          status: string
+          technician: string | null
+          updated_at: string
+        }
+        Insert: {
+          code?: string
+          created_at?: string
+          description: string
+          equipment_id?: string | null
+          id?: string
+          image_url?: string | null
+          issue_type?: string
+          lab_id?: string | null
+          priority?: string
+          reported_by?: string | null
+          reporter_name: string
+          resolution?: string | null
+          status?: string
+          technician?: string | null
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string
+          equipment_id?: string | null
+          id?: string
+          image_url?: string | null
+          issue_type?: string
+          lab_id?: string | null
+          priority?: string
+          reported_by?: string | null
+          reporter_name?: string
+          resolution?: string | null
+          status?: string
+          technician?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_requests_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_requests_lab_id_fkey"
+            columns: ["lab_id"]
+            isOneToOne: false
+            referencedRelation: "labs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message: string
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      students: {
+        Row: {
+          code: string
+          created_at: string
+          department: string
+          email: string
+          id: string
+          lab_id: string | null
+          name: string
+          roll_no: string
+          section: string
+          user_id: string | null
+          year: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          department: string
+          email: string
+          id?: string
+          lab_id?: string | null
+          name: string
+          roll_no: string
+          section: string
+          user_id?: string | null
+          year: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          department?: string
+          email?: string
+          id?: string
+          lab_id?: string | null
+          name?: string
+          roll_no?: string
+          section?: string
+          user_id?: string | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "students_lab_id_fkey"
+            columns: ["lab_id"]
+            isOneToOne: false
+            referencedRelation: "labs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      log_activity: {
+        Args: { _action: string; _details: string; _kind: string }
+        Returns: undefined
+      }
+      my_faculty_id: { Args: never; Returns: string }
+      my_student_id: { Args: never; Returns: string }
+      notify_admins: {
+        Args: { _msg: string; _title: string; _type: string }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "faculty" | "student"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +701,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "faculty", "student"],
+    },
   },
 } as const
