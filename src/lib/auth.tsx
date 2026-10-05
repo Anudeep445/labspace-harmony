@@ -27,7 +27,7 @@ export async function loadMe(): Promise<Me | null> {
   return {
     id: u.id,
     email: u.email ?? "",
-    name: profile.data?.name ?? (u.user_metadata?.name as string) ?? u.email ?? "User",
+    name: profile.data?.name ?? (u.user_metadata?.["name"] as string) ?? u.email ?? "User",
     role,
     faculty: fac.data ?? null,
     student: stu.data ?? null,

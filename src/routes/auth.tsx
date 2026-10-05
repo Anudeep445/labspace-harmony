@@ -41,7 +41,7 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string | undefined; password?: string | undefined }>({});
   const [busy, setBusy] = useState(false);
   const [ready, setReady] = useState(false);
   const [forgotOpen, setForgotOpen] = useState(false);
@@ -78,9 +78,9 @@ function AuthPage() {
 
   async function sendReset() {
     const r = z.string().trim().email().safeParse(forgotEmail);
-    if (!r.success) return toast.error("Enter a valid email address");
+    if (!r.success) { toast.error("Enter a valid email address"); return; }
     const { error } = await supabase.auth.resetPasswordForEmail(r.data, { redirectTo: `${window.location.origin}/reset-password` });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("If that account exists, a reset link has been sent.");
     setForgotOpen(false);
   }
