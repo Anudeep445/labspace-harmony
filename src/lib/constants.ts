@@ -69,3 +69,14 @@ export function errMsg(e: unknown) {
   if (e && typeof e === "object" && "message" in e) return String((e as { message: string }).message);
   return "Something went wrong";
 }
+
+export function fmtDate(d: string | null | undefined) {
+  if (!d) return "—";
+  const x = new Date(d.length === 10 ? d + "T00:00:00" : d);
+  return x.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+}
+export function includesQ(q: string, ...vals: (string | number | null | undefined)[]) {
+  if (!q) return true;
+  const s = q.toLowerCase();
+  return vals.some((v) => v != null && String(v).toLowerCase().includes(s));
+}
